@@ -1,0 +1,126 @@
+{
+  "ivy-town": {
+    "name": "Ivy Town",
+    "overseer": "Dr. Cale",
+    "resistanceLeader": "Professor Kimiyo Hoshi",
+    "apokolipsHeat": "Low",
+    "mainExport": "Advanced Research",
+    "description": "A research-heavy city hidden in the Pacific Northwest, quietly fueling resistance tech.",
+    "notableLocations": ["Quantum Labs", "Resistance Safehouse A2"],
+    "alliesPresent": ["Atomica", "Kimiyo Hoshi"],
+    "location": { "lat": 45.678, "lng": -122.123 }
+  },
+  "star-city": {
+    "name": "Star City",
+    "overseer": "Unknown",
+    "resistanceLeader": "Unknown",
+    "apokolipsHeat": "Medium High",
+    "mainExport": "Metallurgy & Weapon Forging",
+    "description": "Once surrounded by lush forests and cool coastal winds, Star City now lies buried beneath a haze of smoke and heat. Desert stretches beyond its borders — the result of decades of unrestrained mining and industrial scarring. The city groans under the weight of enormous foundries, rail lines, and smelting towers. Citizens live in shifts beneath the furnace towers, while resistance whispers slip through the scorched underground.",
+    "notableLocations": ["The Anvil District", "Furnace Brigades"],
+    "alliesPresent": [],
+    "location": { "lat": 47.6062, "lng": -122.3321 }
+  },
+  "metropolis": {
+    "name": "Metropolis",
+    "overseer": "Lex Luthor",
+    "resistanceLeader": "Lois Lane",
+    "apokolipsHeat": "High",
+    "mainExport": "Infrastructure & Logistics",
+    "description":  "Metropolis was once the shining capital of modern progress — now it is the logistical heart of Earth’s enslavement. Rebuilt into a brutalist mega-grid of transit towers, supply hubs, and automated freight tunnels, the city pulses with the movement of resources, troops, and propaganda. Surveillance drones circle the skyline above LexCorp’s tower, while freight trains vanish into massive underground arteries connecting the world’s conquered cities.",
+    "notableLocations": ["Daily Planet", "LexCorp Tower", "Boom Tube Pylons"],
+    "alliesPresent": [],
+    "location": { "lat": 32.8998, "lng": -97.0403 }
+  },
+  "central-city": {
+    "name": "Central City",
+    "overseer": "Unknown",
+    "resistanceLeader": "Unknown",
+    "apokolipsHeat": "Medium High",
+    "mainExport": "Biotech & Chemical Processing",
+    "description": "Once known for its innovation and progress, Central City has been reshaped into a controlled agricultural and biochemical sprawl. Massive domes and nutrient towers dominate the skyline, producing both synthetic food and chemical compounds for off-world use. The city's streets are sterile and eerily quiet.",
+    "notableLocations": ["Bio-domes", "Hazard Clinics"],
+    "alliesPresent": [],
+    "location": { "lat": 39.0997, "lng": -94.5786 }
+  },
+  "gateway-city": {
+    "name": "Gateway City",
+    "overseer": "Unknown",
+    "resistanceLeader": "Unknown",
+    "apokolipsHeat": "Medium",
+    "mainExport": "Propaganda & Entertainment",
+    "description": "A dazzling facade of peace hides the regime’s most powerful propaganda machine. All forms of media are created here. Gateway City is the home of Omega Arenas, broadcasting curated 'heroic narratives' to the population.",
+    "notableLocations": ["Broadcast Towers", "Memory-Rewrite Chambers"],
+    "alliesPresent": [],
+    "location": { "lat": 34.0522, "lng": -118.2437 }
+  },
+  "bludhaven": {
+    "name": "Blüdhaven",
+    "overseer": "Unknown",
+    "resistanceLeader": "Nightwing",
+    "apokolipsHeat": "Medium Low",
+    "mainExport": "Waste Processing & Black Market Assembly",
+    "description": "The dumping ground for Gotham’s undesirables and industrial runoff. Slums stretch across its jagged coastlines, littered with rusted machinery and half-collapsed tenements. It is a city forgotten by all but those who have no other place to run.",
+    "alliesPresent": [],
+    "location": { "lat": 40.3357, "lng": -74.2724 }
+  },
+  "gotham": {
+    "name": "Gotham",
+    "overseer": "Unknown",
+    "resistanceLeader": "Unknown",
+    "apokolipsHeat": "High",
+    "mainExport": "Advanced Tech & R&D",
+    "description": "Beneath its pristine glass towers and immaculately ordered streets lies a city gripped by fear and manipulation. Crime syndicates and Apokoliptian enforcers rule hand-in-hand, using advanced surveillance and psychological control to maintain order.",
+    "notableLocations": ["The Undervault", "Tech Bunkers"],
+    "alliesPresent": [],
+    "location": { "lat": 40.9128, "lng": -73.0060 }
+  },
+  "keystone-city": {
+  "name": "Keystone City",
+  "overseer": "Administrator Mallor",
+  "resistanceLeader": "None (cell destroyed)",
+  "apokolipsHeat": "High",
+  "mainExport": "Anti-metahuman research and testing",
+  "description": "Once the twin of Central City, now an Apokolips testing ground for metahuman suppression.",
+  "notableLocations": ["The Pit", "Velocity Suppression Chamber"],
+  "alliesPresent": [],
+  "location": { "lat": 40.1141, "lng": -94.6275 }
+},
+"dakota-city": {
+  "name": "Dakota City",
+  "overseer": "Overseer Lethros",
+  "resistanceLeader": "Unknown (fractured network)",
+  "apokolipsHeat": "Medium",
+  "mainExport": "Experimental energy refinement",
+  "description": "Dakota City was once a beacon of powered youth. Now it's a fractured zone with energy mines and a fading memory of Static Shock’s defiance.",
+  "notableLocations": ["Power Sector 12", "The Underground"],
+  "alliesPresent": [],
+  "location": { "lat": 45.546, "lng": -100.731 }
+},
+"coast-city": {
+  "name": "Coast City",
+  "overseer": "Director Selene Marris",
+  "resistanceLeader": "None (infiltration ongoing)",
+  "apokolipsHeat": "Medium",
+  "mainExport": "Propaganda, space program, staged arena entertainment",
+  "description": "A dazzling facade of peace hides the regime’s most powerful propaganda machine. Coast City is the home of Omega Arenas, broadcasting curated 'heroic narratives' to the population.",
+  "notableLocations": ["Omega Arena Prime", "Broadcast District 6", "Ministry of Perception"],
+  "alliesPresent": ["Hidden cell: ‘Signal Fade’"],
+  "location": { "lat": 27.951, "lng": -80.557 }
+},
+"slaughter-swamp": {
+  "name": "Slaughter Swamp",
+  "overseer": "None (redacted zone)",
+  "resistanceLeader": "None (do not enter)",
+  "apokolipsHeat": "Unknown",
+  "mainExport": "Unknown / Experimental disposal",
+  "description": "Declared off-limits by Apokolips. Rumored to house failed experiments, undead anomalies, and ancient magic. Survivors report hallucinations, twisted time, or nothing at all.",
+  "notableLocations": ["The Sinking Spire", "Ashbone Tree", "Quarantine Vault Zero"],
+  "alliesPresent": [],
+  "location": { "lat": 30.269, "lng": -91.717 }
+}
+
+
+
+
+} 
