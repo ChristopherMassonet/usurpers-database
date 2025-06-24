@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Container, Typography, Button, Dialog, DialogTitle, DialogContent, FormControl, InputLabel, Select, MenuItem, Box } from '@mui/material';
-import { DataGrid, GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
+import { DataGrid, GridColDef, GridRenderCellParams, GridRowParams } from '@mui/x-data-grid';
 import agentData from '../data/agentData.json';
+import AgentModal from '../components/AgentModal';
 
 const getUniqueValues = (data: any[], field: string) => {
   const values = data.map((row) => row[field]);
@@ -16,9 +17,12 @@ const Agents: React.FC = () => {
   const [locationFilter, setLocationFilter] = useState('');
   const [affiliationFilter, setAffiliationFilter] = useState('');
   const [metahumanFilter, setMetahumanFilter] = useState('');
+  const [selectedAgent, setSelectedAgent] = useState<any>(null);
+  const [modalOpen, setModalOpen] = useState(false);
 
   const columns: GridColDef[] = [
     { field: 'Name', headerName: 'Name', flex: 1, sortable: true },
+    { field: 'Identity', headerName: 'Identity', flex: 1, sortable: true },
     { field: 'Age', headerName: 'Age', flex: 0.5, sortable: true, type: 'number' },
     { field: 'Abilities', headerName: 'Abilities', flex: 1, sortable: false, renderCell: (params: GridRenderCellParams) => (params.value ? (params.value as string[]).join(', ') : '') },
     { field: 'Location', headerName: 'Location', flex: 1, sortable: true },
@@ -32,6 +36,16 @@ const Agents: React.FC = () => {
   if (affiliationFilter) rows = rows.filter(r => r.Affiliation === affiliationFilter);
   if (metahumanFilter) rows = rows.filter(r => r['Metahuman Status'] === metahumanFilter);
 
+  const handleRowClick = (params: GridRowParams) => {
+    setSelectedAgent(params.row);
+    setModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalOpen(false);
+    setSelectedAgent(null);
+  };
+
   return (
     <Container maxWidth="lg" sx={{ mt: 4 }}>
       <Typography variant="h4" gutterBottom>
@@ -41,8 +55,17 @@ const Agents: React.FC = () => {
         Filter
       </Button>
       <Box sx={{ height: 500, width: '100%' }}>
-        <DataGrid columns={columns} rows={rows} disableSelectionOnClick autoHeight />
+        <DataGrid 
+          columns={columns} 
+          rows={rows} 
+          disableSelectionOnClick 
+          autoHeight 
+          onRowClick={handleRowClick}
+          sx={{ cursor: 'pointer' }}
+        />
       </Box>
+      
+      {/* Filter Dialog */}
       <Dialog open={filterOpen} onClose={() => setFilterOpen(false)}>
         <DialogTitle>Filter Agents</DialogTitle>
         <DialogContent>
@@ -76,6 +99,13 @@ const Agents: React.FC = () => {
           <Button onClick={() => setFilterOpen(false)} sx={{ mt: 3 }} variant="contained">Close</Button>
         </DialogContent>
       </Dialog>
+
+      {/* Agent Modal */}
+      <AgentModal 
+        open={modalOpen} 
+        onClose={handleCloseModal} 
+        agent={selectedAgent} 
+      />
     </Container>
   );
 };

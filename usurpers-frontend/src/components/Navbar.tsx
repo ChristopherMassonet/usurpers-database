@@ -26,6 +26,14 @@ const Navbar: React.FC = () => {
           >
             Agents
           </Button>
+          <Button
+            color={location.pathname === '/inbox' ? 'secondary' : 'inherit'}
+            component={Link}
+            to="/inbox"
+            sx={{ ml: 2 }}
+          >
+            Inbox
+          </Button>
         </Box>
       </Toolbar>
     </AppBar>

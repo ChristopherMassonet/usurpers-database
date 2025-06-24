@@ -1,5 +1,6 @@
 import React from 'react';
-import { Pin as LucidePin } from 'lucide-react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons';
 
 interface PinProps {
   color?: string;
@@ -7,7 +8,7 @@ interface PinProps {
 }
 
 const Pin: React.FC<PinProps> = ({ color = '#00e1ff', size = 32 }) => (
-  <LucidePin color={color} size={size} fill={color} style={{ display: 'block' }} />
+  <FontAwesomeIcon icon={faMapMarkerAlt} color={color} size="lg" style={{ fontSize: size }} />
 );
 
 export default Pin; 

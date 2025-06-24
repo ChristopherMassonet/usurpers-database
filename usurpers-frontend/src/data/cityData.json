@@ -12,11 +12,11 @@
   },
   "star-city": {
     "name": "Star City",
-    "overseer": "Unknown",
-    "resistanceLeader": "Unknown",
+    "overseer": "Valeria Kane",
+    "resistanceLeader": "Green Arrow",
     "apokolipsHeat": "Medium High",
     "mainExport": "Metallurgy & Weapon Forging",
-    "description": "Once surrounded by lush forests and cool coastal winds, Star City now lies buried beneath a haze of smoke and heat. Desert stretches beyond its borders — the result of decades of unrestrained mining and industrial scarring. The city groans under the weight of enormous foundries, rail lines, and smelting towers. Citizens live in shifts beneath the furnace towers, while resistance whispers slip through the scorched underground.",
+    "description": "Once surrounded by lush forests and cool coastal winds, Star City now lies buried beneath a haze of smoke and heat. Desert stretches beyond its borders — the result of decades of unrestrained mining and industrial scarring.",
     "notableLocations": ["The Anvil District", "Furnace Brigades"],
     "alliesPresent": [],
     "location": { "lat": 47.6062, "lng": -122.3321 }
@@ -27,7 +27,7 @@
     "resistanceLeader": "Lois Lane",
     "apokolipsHeat": "High",
     "mainExport": "Infrastructure & Logistics",
-    "description":  "Metropolis was once the shining capital of modern progress — now it is the logistical heart of Earth’s enslavement. Rebuilt into a brutalist mega-grid of transit towers, supply hubs, and automated freight tunnels, the city pulses with the movement of resources, troops, and propaganda. Surveillance drones circle the skyline above LexCorp’s tower, while freight trains vanish into massive underground arteries connecting the world’s conquered cities.",
+    "description":  "Metropolis was once the shining capital of modern progress — now it is the logistical heart of Earth’s enslavement.",
     "notableLocations": ["Daily Planet", "LexCorp Tower", "Boom Tube Pylons"],
     "alliesPresent": [],
     "location": { "lat": 32.8998, "lng": -97.0403 }
@@ -109,12 +109,12 @@
   "location": { "lat": 27.951, "lng": -80.557 }
 },
 "slaughter-swamp": {
-  "name": "Slaughter Swamp",
-  "overseer": "None (redacted zone)",
-  "resistanceLeader": "None (do not enter)",
+  "name": "Slaughter Swamp!!!",
+  "overseer": "None (WARNING)",
+  "resistanceLeader": "None (DO NOT ENTER)",
   "apokolipsHeat": "Unknown",
   "mainExport": "Unknown / Experimental disposal",
-  "description": "Declared off-limits by Apokolips. Rumored to house failed experiments, undead anomalies, and ancient magic. Survivors report hallucinations, twisted time, or nothing at all.",
+  "description": "Declared off-limits by Apokolips (AND US). Rumored to house failed experiments, undead anomalies, and ancient magic. Survivors report hallucinations, twisted time, or nothing at all.",
   "notableLocations": ["The Sinking Spire", "Ashbone Tree", "Quarantine Vault Zero"],
   "alliesPresent": [],
   "location": { "lat": 30.269, "lng": -91.717 }

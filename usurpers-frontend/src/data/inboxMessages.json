@@ -1,0 +1,11 @@
+[
+  {
+    "id": 1,
+    "sender": "Oracle",
+    "date": "2045-10-15T09:00:00Z",
+    "subject": "Welcome to the Network",
+    "message": "Welcome to the resistance comms hub! Here you'll receive mission hooks, updates, and encrypted messages from allies across the continent. Stay alert, and check back often. P.S. Tell GA we missed him.",
+    "location": "N/A",
+    "read": false
+  }
+] 

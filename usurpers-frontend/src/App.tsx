@@ -1,11 +1,13 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ThemeProvider, CssBaseline, GlobalStyles } from '@mui/material';
+import RedRobinLogo from './components/RedRobinLogo';
 import Home from './pages/Home';
 import Agents from './pages/Agents';
 import Navbar from './components/Navbar';
 import theme from './theme';
 import './App.css';
+import Inbox from './pages/Inbox';
 
 const App: React.FC = () => {
   return (
@@ -25,8 +27,10 @@ const App: React.FC = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/agents" element={<Agents />} />
+          <Route path="/inbox" element={<Inbox />} />
         </Routes>
       </Router>
+      <RedRobinLogo />
     </ThemeProvider>
   );
 };
