@@ -114,6 +114,14 @@ const Home: React.FC = () => {
 
   const mapRef = useRef<google.maps.Map | null>(null);
 
+  // Reset map state when component mounts
+  useEffect(() => {
+    setMapReady(false);
+    setMap(null);
+    mapRef.current = null;
+    setMapKey(Date.now());
+  }, []);
+
   useEffect(() => {
     if (isLoaded && mapRef.current && window.google?.maps?.marker?.AdvancedMarkerElement) {
       const marker = new window.google.maps.marker.AdvancedMarkerElement({
@@ -125,6 +133,22 @@ const Home: React.FC = () => {
     }
     console.log(cities)
   }, [isLoaded]);
+
+  const handleMapLoad = (mapInstance: google.maps.Map) => {
+    setMap(mapInstance);
+    mapRef.current = mapInstance;
+    
+    // Use a small delay to ensure the map is fully rendered
+    setTimeout(() => {
+      setMapReady(true);
+    }, 100);
+  };
+
+  const handleMapUnmount = () => {
+    setMapReady(false);
+    setMap(null);
+    mapRef.current = null;
+  };
 
   return (
     <Box sx={{ width: '100vw', height: '100vh', position: 'relative', overflow: 'hidden' }}>
@@ -141,15 +165,12 @@ const Home: React.FC = () => {
             scrollwheel: true,
             gestureHandling: 'greedy',
           }}
-          onLoad={(map) => {
-            setMap(map);
-            mapRef.current = map;
-            Promise.resolve().then(() => setMapReady(true));
-          }}
+          onLoad={handleMapLoad}
+          onUnmount={handleMapUnmount}
         >
           {map && mapReady && cities.map((city: any) => (
             <OverlayView
-              key={city.name}
+              key={`${city.name}-${mapKey}`}
               position={city.location}
               mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
             >
