@@ -3,6 +3,7 @@ import { Box, Typography } from '@mui/material';
 import { GoogleMap, useJsApiLoader, OverlayView } from '@react-google-maps/api';
 import cityData from '../data/cityData.json';
 import Pin from '../components/Pin';
+import CityModal from '../components/CityModal';
 
 
 const containerStyle = {
@@ -109,6 +110,8 @@ const Home: React.FC = () => {
   const [mapReady, setMapReady] = useState(false);
   const [map, setMap] = useState<google.maps.Map | null>(null);
   const [hoveredCity, setHoveredCity] = useState<string | null>(null);
+  const [selectedCity, setSelectedCity] = useState<any | null>(null);
+  const [cityModalOpen, setCityModalOpen] = useState(false);
   const [mapKey, setMapKey] = useState(() => Date.now());
   const cities = Object.values(cityData);
 
@@ -150,6 +153,16 @@ const Home: React.FC = () => {
     mapRef.current = null;
   };
 
+  const handleCityClick = (city: any) => {
+    setSelectedCity(city);
+    setCityModalOpen(true);
+  };
+
+  const handleCloseCityModal = () => {
+    setCityModalOpen(false);
+    setSelectedCity(null);
+  };
+
   return (
     <Box sx={{ width: '100vw', height: '100vh', position: 'relative', overflow: 'hidden' }}>
       {isLoaded ? (
@@ -188,6 +201,7 @@ const Home: React.FC = () => {
                   }}
                   onMouseEnter={() => setHoveredCity(city.name)}
                   onMouseLeave={() => setHoveredCity(null)}
+                  onClick={() => handleCityClick(city)}
                 >
                   <Pin color={heatColorMap[city.apokolipsHeat] || '#00e1ff'} size={hoveredCity === city.name ? 44 : 32} />
                   <Typography
@@ -202,7 +216,6 @@ const Home: React.FC = () => {
                   >
                     {city.name}
                   </Typography>
-
                   <Box
                     sx={{
                       position: 'absolute',
@@ -255,6 +268,13 @@ const Home: React.FC = () => {
           </Typography>
         </Box>
       )}
+
+      {/* City Modal */}
+      <CityModal
+        open={cityModalOpen}
+        onClose={handleCloseCityModal}
+        city={selectedCity}
+      />
 
       {/* Overlay for title or other elements, if needed */}
       {/* <Box sx={overlayStyle}>
