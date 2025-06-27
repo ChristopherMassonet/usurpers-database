@@ -50,6 +50,7 @@ const heatColorMap: Record<string, string> = {
 const getHeatIcon = (heat: string) => {
   switch (heat) {
     case 'Low':
+      return '🔵';
     case 'Medium Low':
       return '🟢';
     case 'Medium':
@@ -57,10 +58,11 @@ const getHeatIcon = (heat: string) => {
     case 'Medium High':
       return '🟠';
     case 'High':
-    case 'Extreme':
       return '🔴';
-    default:
+    case 'Extreme':
       return '⚫';
+    default:
+      return '⚪';
   }
 };
 
