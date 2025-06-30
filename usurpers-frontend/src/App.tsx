@@ -22,7 +22,7 @@ const App: React.FC = () => {
           textShadow: '0 0 8px #2196f3, 0 0 16px #9c27b0',
         },
       }} />
-      <Router>
+      <Router basename="/usurpers-database">
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
