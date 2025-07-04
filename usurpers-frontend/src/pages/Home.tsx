@@ -101,7 +101,7 @@ const heatColorMap: Record<string, string> = {
   'Unknown': '#000000',
 };
 
-// Custom overlay component for better performance
+// Custom overlay component for better performance, this will be put into its own component file
 const CityOverlay = ({ city, onMouseEnter, onMouseLeave, onClick, isHovered }: {
   city: any;
   onMouseEnter: () => void;
