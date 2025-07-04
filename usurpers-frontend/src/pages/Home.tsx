@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Box, Typography } from '@mui/material';
-import { GoogleMap, useJsApiLoader, OverlayView } from '@react-google-maps/api';
+import { GoogleMap, useJsApiLoader, OverlayViewF } from '@react-google-maps/api';
 import cityData from '../data/cityData.json';
 import Pin from '../components/Pin';
 import CityModal from '../components/CityModal';
@@ -101,6 +101,108 @@ const heatColorMap: Record<string, string> = {
   'Unknown': '#000000',
 };
 
+// Custom overlay component for better performance
+const CityOverlay = ({ city, onMouseEnter, onMouseLeave, onClick, isHovered }: {
+  city: any;
+  onMouseEnter: () => void;
+  onMouseLeave: () => void;
+  onClick: () => void;
+  isHovered: boolean;
+}) => {
+  const overlayRef = useRef<HTMLDivElement>(null);
+  
+  const onLoad = useCallback((overlay: google.maps.OverlayView) => {
+    // Store reference for potential position updates
+    if (overlayRef.current) {
+      (overlayRef.current as any).overlay = overlay;
+    }
+  }, []);
+
+  return (
+    <OverlayViewF
+      position={city.location}
+      mapPaneName="overlayMouseTarget"
+      onLoad={onLoad}
+    >
+      <div 
+        ref={overlayRef}
+        style={{ position: 'relative' }}
+      >
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            cursor: 'pointer',
+            zIndex: 10,
+            pointerEvents: 'auto',
+            minWidth: 40,
+            position: 'relative',
+          }}
+          onMouseEnter={onMouseEnter}
+          onMouseLeave={onMouseLeave}
+          onClick={onClick}
+        >
+          <Pin color={heatColorMap[city.apokolipsHeat] || '#00e1ff'} size={isHovered ? 44 : 32} />
+          <Typography
+            variant="caption"
+            sx={{
+              color: '#fff',
+              textShadow: '0 0 8px #000, 0 0 12px #00e1ff',
+              mt: 0.5,
+              fontWeight: 700,
+              letterSpacing: 1,
+            }}
+          >
+            {city.name}
+          </Typography>
+          {/* Hover info box */}
+          <Box
+            sx={{
+              position: 'absolute',
+              top: 48,
+              left: '50%',
+              transform: isHovered
+                ? 'translateX(-50%) scale(1)'
+                : 'translateX(-50%) scale(0.85)',
+              minWidth: 220,
+              opacity: isHovered ? 1 : 0,
+              pointerEvents: isHovered ? 'auto' : 'none',
+              transition: 'opacity 0.25s cubic-bezier(.4,2,.6,1), transform 0.25s cubic-bezier(.4,2,.6,1)',
+              transformOrigin: 'top center',
+              zIndex: 20,
+              background: 'rgba(24,26,32,0.95)',
+              border: `2px solid ${heatColorMap[city.apokolipsHeat] || '#00e1ff'}`,
+              borderRadius: 3,
+              boxShadow: `0 0 24px 4px ${heatColorMap[city.apokolipsHeat] || '#00e1ff'}55`,
+              p: 2,
+            }}
+          >
+            <Typography variant="subtitle1" sx={{ color: heatColorMap[city.apokolipsHeat] || '#00e1ff', fontWeight: 700 }}>
+              {city.name}
+            </Typography>
+            <Typography variant="body2" sx={{ color: '#fff', mb: 1 }}>
+              {city.description}
+            </Typography>
+            <Typography variant="caption" sx={{ color: '#aaa' }}>
+              Overseer: {city.overseer}<br />
+              Resistance Leader: {city.resistanceLeader}<br />
+              Glare: <span style={{ color: heatColorMap[city.apokolipsHeat] || '#00e1ff' }}>{city.apokolipsHeat}</span><br />
+              Main Export: {city.mainExport}
+            </Typography>
+            <Typography variant="caption" sx={{ color: '#aaa', display: 'block', mt: 1 }}>
+              Notable: {city.notableLocations?.join(', ')}
+            </Typography>
+            <Typography variant="caption" sx={{ color: '#aaa', display: 'block', mt: 0.5 }}>
+              Allies: {city.alliesPresent?.join(', ')}
+            </Typography>
+          </Box>
+        </Box>
+      </div>
+    </OverlayViewF>
+  );
+};
+
 const Home: React.FC = () => {
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
@@ -112,10 +214,6 @@ const Home: React.FC = () => {
   const [hoveredCity, setHoveredCity] = useState<string | null>(null);
   const [selectedCity, setSelectedCity] = useState<any | null>(null);
   const [cityModalOpen, setCityModalOpen] = useState(false);
-  const [mapKey, setMapKey] = useState(() => Date.now());
-  const [mapIdle, setMapIdle] = useState(false);
-  const [isDragging, setIsDragging] = useState(false);
-  const [isZooming, setIsZooming] = useState(false);
   const cities = Object.values(cityData);
 
   const mapRef = useRef<google.maps.Map | null>(null);
@@ -125,7 +223,6 @@ const Home: React.FC = () => {
     setMapReady(false);
     setMap(null);
     mapRef.current = null;
-    setMapKey(Date.now());
   }, []);
 
   useEffect(() => {
@@ -144,27 +241,6 @@ const Home: React.FC = () => {
     setMap(mapInstance);
     mapRef.current = mapInstance;
     
-    // Listen for when the map is idle (finished all animations/updates)
-    mapInstance.addListener('idle', () => {
-      setMapIdle(true);
-      setIsZooming(false);
-    });
-    
-    // Track dragging state
-    mapInstance.addListener('dragstart', () => {
-      setIsDragging(true);
-      setMapIdle(false);
-    });
-    
-    mapInstance.addListener('dragend', () => {
-      setIsDragging(false);
-    });
-    
-    mapInstance.addListener('zoom_changed', () => {
-      setIsZooming(true);
-      setMapIdle(false);
-    });
-    
     // Use a small delay to ensure the map is fully rendered
     setTimeout(() => {
       setMapReady(true);
@@ -175,9 +251,6 @@ const Home: React.FC = () => {
     setMapReady(false);
     setMap(null);
     mapRef.current = null;
-    setMapIdle(false);
-    setIsDragging(false);
-    setIsZooming(false);
   };
 
   const handleCityClick = (city: any) => {
@@ -190,11 +263,18 @@ const Home: React.FC = () => {
     setSelectedCity(null);
   };
 
+  const handleCityMouseEnter = (cityName: string) => {
+    setHoveredCity(cityName);
+  };
+
+  const handleCityMouseLeave = () => {
+    setHoveredCity(null);
+  };
+
   return (
     <Box sx={{ width: '100vw', height: '100vh', position: 'relative', overflow: 'hidden' }}>
       {isLoaded ? (
         <GoogleMap
-          key={mapKey}
           mapContainerStyle={containerStyle}
           center={center}
           zoom={4}
@@ -208,85 +288,16 @@ const Home: React.FC = () => {
           onLoad={handleMapLoad}
           onUnmount={handleMapUnmount}
         >
-                     {map && mapReady && (mapIdle || isDragging || isZooming) && cities.map((city: any) => (
-            <OverlayView
+                                {map && mapReady && cities.map((city: any) => (
+             <CityOverlay
                key={city.name}
-               position={city.location}
-               mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
-             >
-              <div style={{ position: 'relative' }}>
-                <Box
-                  sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    cursor: 'pointer',
-                    zIndex: 10,
-                    pointerEvents: 'auto',
-                    minWidth: 40,
-                    position: 'relative',
-                  }}
-                                     onMouseEnter={() => !isDragging && !isZooming && setHoveredCity(city.name)}
-                   onMouseLeave={() => !isDragging && !isZooming && setHoveredCity(null)}
-                  onClick={() => handleCityClick(city)}
-                >
-                                     <Pin color={heatColorMap[city.apokolipsHeat] || '#00e1ff'} size={hoveredCity === city.name && !isDragging && !isZooming ? 44 : 32} />
-                  <Typography
-                    variant="caption"
-                    sx={{
-                      color: '#fff',
-                      textShadow: '0 0 8px #000, 0 0 12px #00e1ff',
-                      mt: 0.5,
-                      fontWeight: 700,
-                      letterSpacing: 1,
-                    }}
-                  >
-                    {city.name}
-                  </Typography>
-                  <Box
-                    sx={{
-                      position: 'absolute',
-                      top: 48,
-                      left: '50%',
-                                           transform: hoveredCity === city.name && !isDragging && !isZooming
-                       ? 'translateX(-50%) scale(1)'
-                       : 'translateX(-50%) scale(0.85)',
-                     minWidth: 220,
-                     opacity: hoveredCity === city.name && !isDragging && !isZooming ? 1 : 0,
-                     pointerEvents: hoveredCity === city.name && !isDragging && !isZooming ? 'auto' : 'none',
-                      transition: 'opacity 0.25s cubic-bezier(.4,2,.6,1), transform 0.25s cubic-bezier(.4,2,.6,1)',
-                      transformOrigin: 'top center',
-                      zIndex: 20,
-                      background: 'rgba(24,26,32,0.95)',
-                      border: `2px solid ${heatColorMap[city.apokolipsHeat] || '#00e1ff'}`,
-                      borderRadius: 3,
-                      boxShadow: `0 0 24px 4px ${heatColorMap[city.apokolipsHeat] || '#00e1ff'}55`,
-                      p: 2,
-                    }}
-                  >
-                    <Typography variant="subtitle1" sx={{ color: heatColorMap[city.apokolipsHeat] || '#00e1ff', fontWeight: 700 }}>
-                      {city.name}
-                    </Typography>
-                    <Typography variant="body2" sx={{ color: '#fff', mb: 1 }}>
-                      {city.description}
-                    </Typography>
-                    <Typography variant="caption" sx={{ color: '#aaa' }}>
-                      Overseer: {city.overseer}<br />
-                      Resistance Leader: {city.resistanceLeader}<br />
-                      Glare: <span style={{ color: heatColorMap[city.apokolipsHeat] || '#00e1ff' }}>{city.apokolipsHeat}</span><br />
-                      Main Export: {city.mainExport}
-                    </Typography>
-                    <Typography variant="caption" sx={{ color: '#aaa', display: 'block', mt: 1 }}>
-                      Notable: {city.notableLocations?.join(', ')}
-                    </Typography>
-                    <Typography variant="caption" sx={{ color: '#aaa', display: 'block', mt: 0.5 }}>
-                      Allies: {city.alliesPresent?.join(', ')}
-                    </Typography>
-                  </Box>
-                </Box>
-              </div>
-            </OverlayView>
-          ))}
+               city={city}
+               onMouseEnter={() => handleCityMouseEnter(city.name)}
+               onMouseLeave={handleCityMouseLeave}
+               onClick={() => handleCityClick(city)}
+               isHovered={hoveredCity === city.name}
+             />
+            ))}
         </GoogleMap>
       ) : (
         <Box sx={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 2, position: 'relative' }}>
