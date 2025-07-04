@@ -254,14 +254,6 @@ const CityModal: React.FC<CityModalProps> = ({ open, onClose, city }) => {
               </Box>
             </Grid>
           )}
-
-          {/* Coordinates */}
-          <Grid item xs={12}>
-            <Divider sx={{ my: 2, borderColor: `${heatColor}40` }} />
-            <Typography variant="caption" sx={{ color: '#666' }}>
-              Coordinates: {city.location.lat.toFixed(4)}, {city.location.lng.toFixed(4)}
-            </Typography>
-          </Grid>
         </Grid>
       </DialogContent>
 

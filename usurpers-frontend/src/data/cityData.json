@@ -85,42 +85,38 @@
   "notableLocations": ["The Pit", "Velocity Suppression Chamber"],
   "alliesPresent": [],
   "location": { "lat": 40.1141, "lng": -94.6275 }
-},
-"dakota-city": {
-  "name": "Dakota City",
-  "overseer": "Overseer Lethros",
-  "resistanceLeader": "Unknown (fractured network)",
-  "apokolipsHeat": "Medium",
-  "mainExport": "Experimental energy refinement",
-  "description": "Dakota City was once a beacon of powered youth. Now it's a fractured zone with energy mines and a fading memory of Static Shock’s defiance.",
-  "notableLocations": ["Power Sector 12", "The Underground"],
-  "alliesPresent": [],
-  "location": { "lat": 45.546, "lng": -100.731 }
-},
-"coast-city": {
-  "name": "Coast City",
-  "overseer": "Director Selene Marris",
-  "resistanceLeader": "None (infiltration ongoing)",
-  "apokolipsHeat": "Medium",
-  "mainExport": "Propaganda, space program, staged arena entertainment",
-  "description": "A dazzling facade of peace hides the regime’s most powerful propaganda machine. Coast City is the home of Omega Arenas, broadcasting curated 'heroic narratives' to the population.",
-  "notableLocations": ["Omega Arena Prime", "Broadcast District 6", "Ministry of Perception"],
-  "alliesPresent": ["Hidden cell: ‘Signal Fade’"],
-  "location": { "lat": 27.951, "lng": -80.557 }
-},
-"slaughter-swamp": {
-  "name": "Slaughter Swamp!!!",
-  "overseer": "None (WARNING)",
-  "resistanceLeader": "None (DO NOT ENTER)",
-  "apokolipsHeat": "Unknown",
-  "mainExport": "Unknown / Experimental disposal",
-  "description": "Declared off-limits by Apokolips (AND US). Rumored to house failed experiments, undead anomalies, and ancient magic. Survivors report hallucinations, twisted time, or nothing at all.",
-  "notableLocations": ["The Sinking Spire", "Ashbone Tree", "Quarantine Vault Zero"],
-  "alliesPresent": [],
-  "location": { "lat": 30.269, "lng": -91.717 }
-}
-
-
-
-
+  },
+  "dakota-city": {
+    "name": "Dakota City",
+    "overseer": "Overseer Lethros",
+    "resistanceLeader": "Unknown (fractured network)",
+    "apokolipsHeat": "Medium",
+    "mainExport": "Experimental energy refinement",
+    "description": "Dakota City was once a beacon of powered youth. Now it's a fractured zone with energy mines and a fading memory of Static Shock’s defiance.",
+    "notableLocations": ["Power Sector 12", "The Underground"],
+    "alliesPresent": [],
+    "location": { "lat": 45.546, "lng": -100.731 }
+  },
+  "coast-city": {
+    "name": "Coast City",
+    "overseer": "Director Selene Marris",
+    "resistanceLeader": "None (infiltration ongoing)",
+    "apokolipsHeat": "Medium",
+    "mainExport": "Propaganda, space program, staged arena entertainment",
+    "description": "A dazzling facade of peace hides the regime’s most powerful propaganda machine. Coast City is the home of Omega Arenas, broadcasting curated 'heroic narratives' to the population.",
+    "notableLocations": ["Omega Arena Prime", "Broadcast District 6", "Ministry of Perception"],
+    "alliesPresent": ["Hidden cell: ‘Signal Fade’"],
+    "location": { "lat": 27.951, "lng": -80.557 }
+  },
+  "slaughter-swamp": {
+    "name": "Slaughter Swamp!!!",
+    "overseer": "None (WARNING)",
+    "resistanceLeader": "None (DO NOT ENTER)",
+    "apokolipsHeat": "Unknown",
+    "mainExport": "Unknown / Experimental disposal",
+    "description": "Declared off-limits by Apokolips (AND US). Rumored to house failed experiments, undead anomalies, and ancient magic. Survivors report hallucinations, twisted time, or nothing at all.",
+    "notableLocations": ["The Sinking Spire", "Ashbone Tree", "Quarantine Vault Zero"],
+    "alliesPresent": [],
+    "location": { "lat": 30.269, "lng": -91.717 }
+  }
 } 

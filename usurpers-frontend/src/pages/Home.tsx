@@ -113,6 +113,9 @@ const Home: React.FC = () => {
   const [selectedCity, setSelectedCity] = useState<any | null>(null);
   const [cityModalOpen, setCityModalOpen] = useState(false);
   const [mapKey, setMapKey] = useState(() => Date.now());
+  const [mapIdle, setMapIdle] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
+  const [isZooming, setIsZooming] = useState(false);
   const cities = Object.values(cityData);
 
   const mapRef = useRef<google.maps.Map | null>(null);
@@ -141,6 +144,27 @@ const Home: React.FC = () => {
     setMap(mapInstance);
     mapRef.current = mapInstance;
     
+    // Listen for when the map is idle (finished all animations/updates)
+    mapInstance.addListener('idle', () => {
+      setMapIdle(true);
+      setIsZooming(false);
+    });
+    
+    // Track dragging state
+    mapInstance.addListener('dragstart', () => {
+      setIsDragging(true);
+      setMapIdle(false);
+    });
+    
+    mapInstance.addListener('dragend', () => {
+      setIsDragging(false);
+    });
+    
+    mapInstance.addListener('zoom_changed', () => {
+      setIsZooming(true);
+      setMapIdle(false);
+    });
+    
     // Use a small delay to ensure the map is fully rendered
     setTimeout(() => {
       setMapReady(true);
@@ -151,6 +175,9 @@ const Home: React.FC = () => {
     setMapReady(false);
     setMap(null);
     mapRef.current = null;
+    setMapIdle(false);
+    setIsDragging(false);
+    setIsZooming(false);
   };
 
   const handleCityClick = (city: any) => {
@@ -181,12 +208,12 @@ const Home: React.FC = () => {
           onLoad={handleMapLoad}
           onUnmount={handleMapUnmount}
         >
-          {map && mapReady && cities.map((city: any) => (
+                     {map && mapReady && (mapIdle || isDragging || isZooming) && cities.map((city: any) => (
             <OverlayView
-              key={`${city.name}-${mapKey}`}
-              position={city.location}
-              mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
-            >
+               key={city.name}
+               position={city.location}
+               mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
+             >
               <div style={{ position: 'relative' }}>
                 <Box
                   sx={{
@@ -199,11 +226,11 @@ const Home: React.FC = () => {
                     minWidth: 40,
                     position: 'relative',
                   }}
-                  onMouseEnter={() => setHoveredCity(city.name)}
-                  onMouseLeave={() => setHoveredCity(null)}
+                                     onMouseEnter={() => !isDragging && !isZooming && setHoveredCity(city.name)}
+                   onMouseLeave={() => !isDragging && !isZooming && setHoveredCity(null)}
                   onClick={() => handleCityClick(city)}
                 >
-                  <Pin color={heatColorMap[city.apokolipsHeat] || '#00e1ff'} size={hoveredCity === city.name ? 44 : 32} />
+                                     <Pin color={heatColorMap[city.apokolipsHeat] || '#00e1ff'} size={hoveredCity === city.name && !isDragging && !isZooming ? 44 : 32} />
                   <Typography
                     variant="caption"
                     sx={{
@@ -221,12 +248,12 @@ const Home: React.FC = () => {
                       position: 'absolute',
                       top: 48,
                       left: '50%',
-                      transform: hoveredCity === city.name
-                        ? 'translateX(-50%) scale(1)'
-                        : 'translateX(-50%) scale(0.85)',
-                      minWidth: 220,
-                      opacity: hoveredCity === city.name ? 1 : 0,
-                      pointerEvents: hoveredCity === city.name ? 'auto' : 'none',
+                                           transform: hoveredCity === city.name && !isDragging && !isZooming
+                       ? 'translateX(-50%) scale(1)'
+                       : 'translateX(-50%) scale(0.85)',
+                     minWidth: 220,
+                     opacity: hoveredCity === city.name && !isDragging && !isZooming ? 1 : 0,
+                     pointerEvents: hoveredCity === city.name && !isDragging && !isZooming ? 'auto' : 'none',
                       transition: 'opacity 0.25s cubic-bezier(.4,2,.6,1), transform 0.25s cubic-bezier(.4,2,.6,1)',
                       transformOrigin: 'top center',
                       zIndex: 20,
