@@ -110,6 +110,8 @@ const CityOverlay = ({ city, onMouseEnter, onMouseLeave, onClick, isHovered }: {
   isHovered: boolean;
 }) => {
   const overlayRef = useRef<HTMLDivElement>(null);
+  const [showAbove, setShowAbove] = useState(false);
+  const [horizontalOffset, setHorizontalOffset] = useState(0);
   
   const onLoad = useCallback((overlay: google.maps.OverlayView) => {
     // Store reference for potential position updates
@@ -117,6 +119,37 @@ const CityOverlay = ({ city, onMouseEnter, onMouseLeave, onClick, isHovered }: {
       (overlayRef.current as any).overlay = overlay;
     }
   }, []);
+
+    // Check if popup should appear above the pin and handle horizontal positioning
+    useEffect(() => {
+      if (isHovered && overlayRef.current) {
+        const rect = overlayRef.current.getBoundingClientRect();
+        const viewportHeight = window.innerHeight;
+        const viewportWidth = window.innerWidth;
+        const popupHeight = 320; // Approximate height of the popup
+        const popupWidth = 220; // Approximate width of the popup
+        
+        // If pin is in bottom third of screen, show popup above
+        setShowAbove(rect.bottom + popupHeight > viewportHeight - 50);
+        
+        // Handle horizontal positioning
+        const popupLeft = rect.left + rect.width / 2 - popupWidth / 2;
+        const popupRight = popupLeft + popupWidth;
+        
+        let offset = 0;
+        
+        // If popup would be cut off on the left
+        if (popupLeft < 10) {
+          offset = 10 - popupLeft;
+        }
+        // If popup would be cut off on the right
+        else if (popupRight > viewportWidth - 10) {
+          offset = viewportWidth - 10 - popupRight;
+        }
+        
+        setHorizontalOffset(offset);
+      }
+    }, [isHovered]);
 
   return (
     <OverlayViewF
@@ -126,7 +159,10 @@ const CityOverlay = ({ city, onMouseEnter, onMouseLeave, onClick, isHovered }: {
     >
       <div 
         ref={overlayRef}
-        style={{ position: 'relative' }}
+        style={{ 
+          position: 'relative',
+          zIndex: isHovered ? 1000 : 10 // Higher z-index when hovered
+        }}
       >
         <Box
           sx={{
@@ -160,8 +196,9 @@ const CityOverlay = ({ city, onMouseEnter, onMouseLeave, onClick, isHovered }: {
           <Box
             sx={{
               position: 'absolute',
-              top: 48,
-              left: '50%',
+              top: showAbove ? 'auto' : 48,
+              bottom: showAbove ? 48 : 'auto',
+              left: `calc(50% + ${horizontalOffset}px)`,
               transform: isHovered
                 ? 'translateX(-50%) scale(1)'
                 : 'translateX(-50%) scale(0.85)',
@@ -169,8 +206,8 @@ const CityOverlay = ({ city, onMouseEnter, onMouseLeave, onClick, isHovered }: {
               opacity: isHovered ? 1 : 0,
               pointerEvents: isHovered ? 'auto' : 'none',
               transition: 'opacity 0.25s cubic-bezier(.4,2,.6,1), transform 0.25s cubic-bezier(.4,2,.6,1)',
-              transformOrigin: 'top center',
-              zIndex: 20,
+              transformOrigin: showAbove ? 'bottom center' : 'top center',
+              zIndex: 1001, // Even higher z-index for the popup
               background: 'rgba(24,26,32,0.95)',
               border: `2px solid ${heatColorMap[city.apokolipsHeat] || '#00e1ff'}`,
               borderRadius: 3,
