@@ -7,12 +7,8 @@ import CityModal from '../components/CityModal';
 
 
 const containerStyle = {
-  width: '100vw',
-  height: '100vh',
-  position: 'fixed' as const,
-  top: 0,
-  left: 0,
-  zIndex: 1,
+  width: '100%',
+  height: '100%',
 };
 
 const overlayStyle = {
@@ -309,7 +305,7 @@ const Home: React.FC = () => {
   };
 
   return (
-    <Box sx={{ width: '100vw', height: '100vh', position: 'relative', overflow: 'hidden' }}>
+    <Box sx={{ width: '100%', height: '100%', position: 'relative', overflow: 'hidden' }}>
       {isLoaded ? (
         <GoogleMap
           mapContainerStyle={containerStyle}
@@ -337,7 +333,7 @@ const Home: React.FC = () => {
             ))}
         </GoogleMap>
       ) : (
-        <Box sx={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 2, position: 'relative' }}>
+        <Box sx={{ height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
           <Typography variant="body1" color="text.secondary">
             Loading map...
           </Typography>

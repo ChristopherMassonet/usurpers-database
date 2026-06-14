@@ -47,21 +47,30 @@ const Agents: React.FC = () => {
   };
 
   return (
-    <Container maxWidth="lg" sx={{ mt: 4 }}>
+    <Container
+      maxWidth="lg"
+      sx={{
+        mt: 4,
+        pb: 4,
+        display: 'flex',
+        flexDirection: 'column',
+        height: '100%',
+        boxSizing: 'border-box',
+      }}
+    >
       <Typography variant="h4" gutterBottom>
         Agents
       </Typography>
       <Button variant="outlined" onClick={() => setFilterOpen(true)} sx={{ mb: 2 }}>
         Filter
       </Button>
-      <Box sx={{ height: 500, width: '100%' }}>
-        <DataGrid 
-          columns={columns} 
-          rows={rows} 
-          disableSelectionOnClick 
-          autoHeight 
+      <Box sx={{ flex: 1, width: '100%', minHeight: 0 }}>
+        <DataGrid
+          columns={columns}
+          rows={rows}
+          disableSelectionOnClick
           onRowClick={handleRowClick}
-          sx={{ cursor: 'pointer' }}
+          sx={{ cursor: 'pointer', height: '100%' }}
         />
       </Box>
       

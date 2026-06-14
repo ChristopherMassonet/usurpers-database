@@ -5,7 +5,10 @@ import { Link, useLocation } from 'react-router-dom';
 const Navbar: React.FC = () => {
   const location = useLocation();
   return (
-    <AppBar position="static">
+    <AppBar
+      position="fixed"
+      sx={{ zIndex: (theme) => theme.zIndex.modal + 1 }}
+    >
       <Toolbar>
         <Typography variant="h6" sx={{ flexGrow: 1 }} className="glow">
           Resistance Database

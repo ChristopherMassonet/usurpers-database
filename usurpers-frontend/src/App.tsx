@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { ThemeProvider, CssBaseline, GlobalStyles } from '@mui/material';
+import { ThemeProvider, CssBaseline, GlobalStyles, Box, Toolbar } from '@mui/material';
 import RedRobinLogo from './components/RedRobinLogo';
 import Home from './pages/Home';
 import Agents from './pages/Agents';
@@ -23,12 +23,17 @@ const App: React.FC = () => {
         },
       }} />
       <Router basename="/usurpers-database">
-        <Navbar />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/agents" element={<Agents />} />
-          <Route path="/inbox" element={<Inbox />} />
-        </Routes>
+        <Box sx={{ display: 'flex', flexDirection: 'column', height: '100vh', overflow: 'hidden' }}>
+          <Navbar />
+          <Toolbar />
+          <Box component="main" sx={{ flex: 1, minHeight: 0, overflow: 'hidden' }}>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/agents" element={<Agents />} />
+              <Route path="/inbox" element={<Inbox />} />
+            </Routes>
+          </Box>
+        </Box>
       </Router>
       <RedRobinLogo />
     </ThemeProvider>
